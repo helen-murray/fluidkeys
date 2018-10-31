@@ -104,8 +104,16 @@ func generatePgpKey(email string, channel chan generatePgpKeyResult) {
 }
 
 func promptForEmail() string {
-	out.Print(PromptEmail + "\n")
-	return promptForInput("[email] : ", true)
+	var email string
+	for {
+		out.Print(PromptEmail + "\n")
+		email = promptForInput("[email] : ", true)
+		if email != "" {
+			break
+		}
+		printFailed("You must provide an email address\n")
+	}
+	return email
 }
 
 func generatePassword(numberOfWords int, separator string) DicewarePassword {
